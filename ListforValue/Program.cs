@@ -7,6 +7,7 @@
             Value value = new Value();
             ValueEdit edit = new ValueEdit();
             bool loopCheck = true;
+            int count = 0;
             while (loopCheck)
             {
                 Console.WriteLine("1-add integer value");
@@ -21,17 +22,16 @@
                     switch (number)
                     {
                         case 1:
-                            Console.WriteLine("Ededin id-ni daxil et");
-                            bool checkId = int.TryParse(Console.ReadLine(), out int setId);
+                            count++;
                             Console.WriteLine("Eded daxil et");
                             bool checkNum = int.TryParse(Console.ReadLine(), out int setNum);
 
-                            if (checkNum && checkId)
+                            if (checkNum)
                             {
                                 Value value1 = new Value()
                                 {
                                     MyValue = setNum,
-                                    Id = setId
+                                    Id = count
                                 };
                                 edit.AddValue(value1);
                             }
@@ -56,10 +56,22 @@
                         case 4:
                             Console.WriteLine("Deyismek istediyin ededin id-ni daxil et");
                             bool tryChangeId = int.TryParse(Console.ReadLine(), out int tryId);
-                            Console.WriteLine("Yeni ededi daxil et");
-                            bool tryChangeValue = int.TryParse(Console.ReadLine(), out int tryValue);
-                            if (tryChangeValue)
+                            bool tryUpdateId = false;
+                            getAllValue = edit.ShowValues();
+                            foreach(var item in getAllValue)
                             {
+                                if( item.Id == tryId)
+                                {
+                                    tryUpdateId = true;
+                                    break;
+                                }
+                            }
+                            
+                            if (tryUpdateId)
+                            {
+                                Console.WriteLine("Yeni ededi daxil et");
+                                int tryValue = int.Parse(Console.ReadLine());
+                    
                                 Value value2 = new Value()
                                 {
                                     Id = tryId,
@@ -70,7 +82,7 @@
                             }
                             else
                             {
-                                Console.WriteLine("Dogru reqem daxil edin");
+                                Console.WriteLine("Bele id-li istifadeci tapilmadi");
                             }
                             break;
                         case 5:
